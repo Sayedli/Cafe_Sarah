@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#5b3a29">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Cafe Manager">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>Cafe Manager</title>
+</head>
+<body>
+<header>
+  <div><small>SMALL BUSINESS DASHBOARD</small><h1 id="title">Cafe Manager</h1></div>
+  <button id="installBtn" class="secondary hidden">Install</button>
+</header>
+
+<main>
+<section id="home" class="screen active">
+  <div class="stats">
+    <article><span>Today's sales</span><strong id="todayRevenue">$0.00</strong></article>
+    <article><span>Orders today</span><strong id="todayOrders">0</strong></article>
+    <article><span>Inventory value</span><strong id="inventoryValue">$0.00</strong></article>
+    <article class="warn"><span>Low stock</span><strong id="lowStock">0</strong></article>
+  </div>
+  <div class="heading"><div><small>QUICK CHECKOUT</small><h2>Record a sale</h2></div></div>
+  <div id="productGrid" class="product-grid"></div>
+  <div class="panel"><div class="heading compact"><h2>Recent sales</h2><button id="clearSales" class="link danger">Clear</button></div><div id="recentSales" class="list"></div></div>
+</section>
+
+<section id="products" class="screen">
+  <div class="heading"><div><small>MENU</small><h2>Products</h2></div><button id="addProduct">Add product</button></div>
+  <div id="productList" class="list"></div>
+</section>
+
+<section id="inventory" class="screen">
+  <div class="heading"><div><small>SUPPLIES</small><h2>Inventory</h2></div><button id="addInventory">Add item</button></div>
+  <div id="inventoryList" class="list"></div>
+</section>
+
+<section id="settings" class="screen">
+  <div class="heading"><div><small>SETUP</small><h2>Settings</h2></div></div>
+  <div class="panel form">
+    <label>Shop name<input id="shopName"></label>
+    <label>Currency symbol<input id="currency" maxlength="4"></label>
+    <button id="saveSettings">Save settings</button>
+  </div>
+  <div class="panel form">
+    <h3>Backup</h3>
+    <p>Export before changing phones or clearing browser data.</p>
+    <button id="exportData">Export backup</button>
+    <label class="file">Import backup<input id="importData" type="file" accept="application/json"></label>
+  </div>
+  <div class="panel"><h3>Install on iPhone</h3><p>Open this site in Safari, tap Share, then Add to Home Screen.</p></div>
+</section>
+</main>
+
+<nav>
+  <button data-screen="home" class="active">⌂<span>Home</span></button>
+  <button data-screen="products">☕<span>Products</span></button>
+  <button data-screen="inventory">□<span>Inventory</span></button>
+  <button data-screen="settings">⚙<span>Settings</span></button>
+</nav>
+
+<dialog id="productDialog"><form id="productForm">
+  <div class="dialog-head"><h2 id="productDialogTitle">Add product</h2><button type="button" class="close">×</button></div>
+  <input type="hidden" id="productId">
+  <label>Name<input id="productName" required></label>
+  <label>Price<input id="productPrice" type="number" min="0" step="0.01" required></label>
+  <label>Category<input id="productCategory" placeholder="Coffee, Cake, Pastry"></label>
+  <label>Linked inventory<select id="productInventory"></select></label>
+  <label>Amount deducted per sale<input id="productDeduction" type="number" min="0" step="0.01" value="1"></label>
+  <div class="actions"><button type="button" class="secondary cancel">Cancel</button><button type="submit">Save</button></div>
+</form></dialog>
+
+<dialog id="inventoryDialog"><form id="inventoryForm">
+  <div class="dialog-head"><h2 id="inventoryDialogTitle">Add inventory item</h2><button type="button" class="close">×</button></div>
+  <input type="hidden" id="inventoryId">
+  <label>Name<input id="inventoryName" required></label>
+  <label>Current quantity<input id="inventoryQuantity" type="number" min="0" step="0.01" required></label>
+  <label>Unit<input id="inventoryUnit" placeholder="pieces, liters, bags" required></label>
+  <label>Cost per unit<input id="inventoryCost" type="number" min="0" step="0.01" value="0"></label>
+  <label>Low-stock threshold<input id="inventoryThreshold" type="number" min="0" step="0.01" value="5"></label>
+  <div class="actions"><button type="button" class="secondary cancel">Cancel</button><button type="submit">Save</button></div>
+</form></dialog>
+
+<dialog id="saleDialog"><form id="saleForm">
+  <div class="dialog-head"><h2 id="saleName">Record sale</h2><button type="button" class="close">×</button></div>
+  <input type="hidden" id="saleProductId">
+  <label>Quantity<input id="saleQuantity" type="number" min="1" step="1" value="1" required></label>
+  <label>Payment<select id="salePayment"><option>Cash</option><option>Card</option><option>Other</option></select></label>
+  <p class="total">Total: <strong id="saleTotal">$0.00</strong></p>
+  <div class="actions"><button type="button" class="secondary cancel">Cancel</button><button type="submit">Complete sale</button></div>
+</form></dialog>
+
+<div id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
